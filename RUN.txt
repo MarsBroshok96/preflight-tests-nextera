@@ -1,0 +1,21 @@
+Nextera Platform Health Dashboard — синтетические данные, без подключений к платформе.
+
+Требуется Python 3.10+; сторонних зависимостей нет.
+
+Локальный запуск из каталога health-dashboard:
+  python3 app.py
+  открыть на той же машине http://127.0.0.1:8765/
+  GET http://127.0.0.1:8765/health
+  GET http://127.0.0.1:8765/api/checks
+  GET http://127.0.0.1:8765/api/checks?status=BROKEN
+
+Сервер слушает только 127.0.0.1. Для остановки нажать Ctrl-C в терминале сервера.
+Внешний доступ и production deployment не предусмотрены. /health означает
+только доступность этого демонстрационного процесса, не здоровье платформы.
+
+Тесты из каталога health-dashboard:
+  python3 -m unittest discover -s tests -t . -v
+
+Поле observed_at каждой записи — ISO-8601 с временной зоной. Допустимые status:
+WORKING, PARTIAL, BROKEN, UNAVAILABLE, BLOCKED, UNKNOWN. Неизвестное значение
+или пустой status возвращает HTTP 400. Фильтр UI — GET /?status=BROKEN.
